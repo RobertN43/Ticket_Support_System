@@ -1,11 +1,14 @@
-from database import db
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
+
+from database import Base
 
 
-class Department(db.Model):
+class Department(Base):
     __tablename__ = "departments"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
 
-    positions = db.relationship("Position", backref="department")
-    employees = db.relationship("Employee", backref="department")
+    positions = relationship("Position", backref="department")
+    employees = relationship("Employee", backref="department")

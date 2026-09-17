@@ -1,6 +1,8 @@
-from flask import Flask
-from database import db
+from fastapi import FastAPI
 
+from database import Base, engine
+
+# Učitavamo modele da SQLAlchemy zna za njih
 from models.department import Department
 from models.position import Position
 from models.employee import Employee
@@ -9,20 +11,12 @@ from models.comment import Comment
 from models.ticket_history import TicketHistory
 
 
-app = Flask(__name__)
-
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tickets.db"
-
-db.init_app(app)
-
-with app.app_context():
-    db.create_all()
+Base.metadata.create_all(bind=engine)
 
 
-@app.route("/")
+app = FastAPI()
+
+
+@app.get("/")
 def home():
-    return "Hello, Flask!"
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    return {"message": "Hello, FastAPI!"}

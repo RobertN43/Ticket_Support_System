@@ -1,20 +1,22 @@
-from database import db
+from sqlalchemy import Column, Integer, Text, ForeignKey
+
+from database import Base
 
 
-class Comment(db.Model):
+class Comment(Base):
     __tablename__ = "comments"
 
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text, nullable=False)
+    id = Column(Integer, primary_key=True)
+    content = Column(Text, nullable=False)
 
-    ticket_id = db.Column(
-        db.Integer,
-        db.ForeignKey("tickets.id"),
+    ticket_id = Column(
+        Integer,
+        ForeignKey("tickets.id"),
         nullable=False
     )
 
-    employee_id = db.Column(
-        db.Integer,
-        db.ForeignKey("employees.id"),
+    employee_id = Column(
+        Integer,
+        ForeignKey("employees.id"),
         nullable=False
     )

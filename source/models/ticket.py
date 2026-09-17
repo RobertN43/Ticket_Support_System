@@ -1,25 +1,28 @@
-from database import db
+from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy.orm import relationship
+
+from database import Base
 
 
-class Ticket(db.Model):
+class Ticket(Base):
     __tablename__ = "tickets"
 
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    status = db.Column(db.String(50), nullable=False)
+    id = Column(Integer, primary_key=True)
+    title = Column(String(200), nullable=False)
+    description = Column(Text, nullable=False)
+    status = Column(String(50), nullable=False)
 
-    created_by = db.Column(
-        db.Integer,
-        db.ForeignKey("employees.id"),
+    created_by = Column(
+        Integer,
+        ForeignKey("employees.id"),
         nullable=False
     )
 
-    assigned_to = db.Column(
-        db.Integer,
-        db.ForeignKey("employees.id"),
+    assigned_to = Column(
+        Integer,
+        ForeignKey("employees.id"),
         nullable=True
     )
 
-    comments = db.relationship("Comment", backref="ticket")
-    history = db.relationship("TicketHistory", backref="ticket")
+    comments = relationship("Comment", backref="ticket")
+    history = relationship("TicketHistory", backref="ticket")
