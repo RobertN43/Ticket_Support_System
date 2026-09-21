@@ -8,10 +8,14 @@ class Employee(Base):
     __tablename__ = "employees"
 
     id = Column(Integer, primary_key=True)
+
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
+
     email = Column(String(150), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
+
+    # Application role: ADMIN, TECHNICIAN, WORKER
     role = Column(String(50), nullable=False)
 
     department_id = Column(
@@ -38,5 +42,12 @@ class Employee(Base):
         backref="technician"
     )
 
-    comments = relationship("Comment", backref="employee")
-    history_entries = relationship("TicketHistory", backref="employee")
+    comments = relationship(
+        "Comment",
+        backref="employee"
+    )
+
+    history_entries = relationship(
+        "TicketHistory",
+        backref="employee"
+    )
